@@ -1,0 +1,20 @@
+# Ignore everything in target/
+target/*
+
+# But not target/classes (keep directory)
+!target/classes/
+
+# Ignore everything in classes
+target/classes/*
+
+# But keep specific schema files
+!target/classes/getAllOrdersSchema.json
+!target/classes/getSingleOrderSchema.json
+!target/classes/postOrderSchema.json
+# Eclipse/IDEA-specific files
+.classpath
+.project
+.settings/
+
+# Test output directory
+test-output/
