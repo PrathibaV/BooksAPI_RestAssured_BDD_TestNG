@@ -12,9 +12,9 @@ To validate the user creation through POST request
     Then User receives <ExpectedStatusCode>, "<ExpectedStatusLine>", "<ContentType>" and "<ErrorMessage>" with response body containing the Order details
 	
 	Examples:
-		| SheetName  | Scenario 				 | ExpectedStatusCode | ExpectedStatusLine  | ContentType			 | ErrorMessage |
-		| Post 			 | with missing name | 400								| Bad Request					| application/json | Name can't be empty |
-		| Post 			 | with missing bookId | 400								| Bad Request					| application/json | Invalid or missing bookId. |
+		| SheetName  | Scenario | ExpectedStatusCode | ExpectedStatusLine  | ContentType	| ErrorMessage |
+		| Post |	with missing name	|	400	|	Bad Request	| application/json | Name can't be empty |
+		| Post |	with missing bookId	|	400	|	Bad Request	| application/json | Invalid or missing bookId. |
 
      @tag3
    Scenario Outline: Check if the User is able to create a new Order with invalid endpoint
