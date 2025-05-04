@@ -23,8 +23,8 @@ To validate the user creation through POST request
     Then User receives <ExpectedStatusCode>, "<ExpectedStatusLine>" in the response
     
 	Examples:
-		| SheetName  | Scenario 				 		 | ExpectedStatusCode | ExpectedStatusLine  |
-		| Post 			 | with invalid endpoint | 404								| Not Found						|
+		| SheetName  | Scenario | ExpectedStatusCode | ExpectedStatusLine  |
+		| Post 	| with invalid endpoint | 404	| Not Found	|
 		
   @tag1
   Scenario Outline: Check if the User is able to create a new Order with valid data
@@ -33,6 +33,6 @@ To validate the user creation through POST request
     Then User receives <ExpectedStatusCode>, "<ExpectedStatusLine>" and "<ContentType>" with response body containing the Order details
 	
 	Examples:
-		| SheetName  | Scenario 				| ExpectedStatusCode | ExpectedStatusLine | ContentType|
-    | Post 			 | with valid data1 | 201								 | Created						| application/json |
-    | Post 			 | with valid data2 | 201								 | Created						| application/json | 
+		| SheetName  | Scenario | ExpectedStatusCode | ExpectedStatusLine | ContentType|
+    | Post | with valid data1 | 201	| Created	| application/json |
+    | Post | with valid data2 | 201	| Created	| application/json | 

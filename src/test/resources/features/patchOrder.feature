@@ -9,8 +9,8 @@ To validate the update order through PATCH request
     Then User receives <ExpectedStatusCode>, "<ExpectedStatusLine>" and "<ContentType>" with response body containing the updated order details
 	
 	Examples:
-		| SheetName  | Scenario 				| ExpectedStatusCode | ExpectedStatusLine | ContentType|
-    | Patch 		 | update with valid data | 204								 | Created						| application/json |
+		| SheetName  | Scenario | ExpectedStatusCode | ExpectedStatusLine | ContentType|
+    | Patch | update with valid data | 204	| Created	| application/json |
 	
   @tag2
    Scenario Outline: Check if the User is able to update an Order without authorization
@@ -19,8 +19,8 @@ To validate the update order through PATCH request
     Then User receives <ExpectedStatusCode>, "<ExpectedStatusLine>", "<ContentType>" and "<ErrorMessage>" with response body containing the updated Order details
 	
 	Examples:
-		| SheetName  | Scenario 				 | ExpectedStatusCode | ExpectedStatusLine  | ContentType			 | ErrorMessage |
-		| Patch 			 | update without auth | 401								| Unauthorized					| application/json | Missing Authorization header. |
+		| SheetName | Scenario | ExpectedStatusCode | ExpectedStatusLine  | ContentType	| ErrorMessage |
+		| Patch | update without auth | 401	| Unauthorized	| application/json | Missing Authorization header. |
 
      @tag3
    Scenario Outline: Check if the User is able to update an Order with invalid orderID
@@ -29,8 +29,8 @@ To validate the update order through PATCH request
     Then User receives <ExpectedStatusCode>, "<ExpectedStatusLine>", "<ContentType>" and "<ErrorMessage>" in the response body
     
 	Examples:
-		| SheetName  | Scenario 				 		 | ExpectedStatusCode | ExpectedStatusLine  | ContentType			 | ErrorMessage |
-		| Patch 			 | update with invalid order id | 404								| Not Found						| application/json | No order with id {orderId}. |
+		| SheetName  | Scenario | ExpectedStatusCode | ExpectedStatusLine  | ContentType	| ErrorMessage |
+		| Patch | update with invalid order id | 404	| Not Found	| application/json | No order with id {orderId}. |
 		
 		
 		

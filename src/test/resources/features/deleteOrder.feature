@@ -9,8 +9,8 @@ To validate the delete orders through DELETE request
     Then User receives <ExpectedStatusCode>, "<ExpectedStatusLine>" in the response of the delete request
 	
 	Examples:
-		| SheetName  | Scenario 				| ExpectedStatusCode | ExpectedStatusLine |
-    | Delete 		 | delete order by order id | 204				 | No Content					| 
+		| SheetName  | Scenario | ExpectedStatusCode | ExpectedStatusLine |
+    | Delete 	| delete order by order id | 204	| No Content	| 
 	
 		
 	 Scenario Outline: Check if the User is able to delete an Order with invalid order id
@@ -19,6 +19,6 @@ To validate the delete orders through DELETE request
     Then User receives <ExpectedStatusCode>, "<ExpectedStatusLine>", "<ContentType>" and "<ErrorMessage>" in the response body of the delete request
     
 	Examples:
-		| SheetName  | Scenario 				 		 | ExpectedStatusCode | ExpectedStatusLine  | ContentType			 | ErrorMessage |
-		| Delete 		 | delete order with invalid order id | 404		| Not Found						| application/json | No order with id {orderId}. |
+		| SheetName  | Scenario | ExpectedStatusCode | ExpectedStatusLine  | ContentType	| ErrorMessage |
+		| Delete | delete order with invalid order id | 404	| Not Found	| application/json | No order with id {orderId}. |
 		

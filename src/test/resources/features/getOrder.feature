@@ -9,8 +9,8 @@ To validate the get orders through GET request
     Then User receives <ExpectedStatusCode>, "<ExpectedStatusLine>" and "<ContentType>" with response body containing all orders details
 	
 	Examples:
-		| SheetName  | Scenario 				| ExpectedStatusCode | ExpectedStatusLine | ContentType|
-    | Get 		 | get all orders | 200								 | OK						| application/json |
+		| SheetName  | Scenario | ExpectedStatusCode | ExpectedStatusLine | ContentType|
+    | Get | get all orders | 200	| OK	| application/json |
 	
   @tag2
    Scenario Outline: Check if the User is able to get all orders with invalid baseurl
@@ -19,8 +19,8 @@ To validate the get orders through GET request
     Then User receives <ExpectedStatusCode>, "<ExpectedStatusLine>" in the response of the get request
 	
 	Examples:
-		| SheetName  | Scenario 				 | ExpectedStatusCode | ExpectedStatusLine  |
-		| Get 			 | get all orders with invalid baseurl | 401								| Unauthorized					| 
+		| SheetName  | Scenario | ExpectedStatusCode | ExpectedStatusLine  |
+		| Get | get all orders with invalid baseurl | 401	| Unauthorized	| 
 
      @tag3
    Scenario Outline: Check if the User is able to get an Order with valid orderID
@@ -29,8 +29,8 @@ To validate the get orders through GET request
     Then User receives <ExpectedStatusCode>, "<ExpectedStatusLine>" and "<ContentType>" in the response body
     
 	Examples:
-		| SheetName  | Scenario 				 		 | ExpectedStatusCode | ExpectedStatusLine  | ContentType			 | 
-		| Get 			 | get order by order id | 200								| OK					| application/json | 
+		| SheetName  | Scenario | ExpectedStatusCode | ExpectedStatusLine  | ContentType | 
+		| Get | get order by order id | 200	| OK	| application/json | 
 		
 		
 	 Scenario Outline: Check if the User is able to get an Order with invalid endpoint
@@ -39,6 +39,6 @@ To validate the get orders through GET request
     Then User receives <ExpectedStatusCode>, "<ExpectedStatusLine>" in the response of the get request
     
 	Examples:
-		| SheetName  | Scenario 				 		 | ExpectedStatusCode | ExpectedStatusLine  |
-		| Get 			 | get order by order id with invalid endpoint | 404								| Not Found						| 
+		| SheetName  | Scenario | ExpectedStatusCode | ExpectedStatusLine  |
+		| Get | get order by order id with invalid endpoint | 404	| Not Found	| 
 		
