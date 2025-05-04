@@ -24,6 +24,16 @@ public class PostOrderSteps {
 		this.context = context;
 	}
 
+	@Given("User is authenticated")
+	public void user_is_authenticated() {
+		if (!context.getResourcesManager().getAccessToken().isEmpty()) {
+			System.out.println("User is authenticated");
+		} else {
+			System.out.println("User is not authenticated");
+		}
+	}
+	
+	
 	@Given("User creates POST request for creating new Order with valid request body from {string} for {string}")
 	public void user_creates_post_request_for_creating_new_order_with_valid_request_body_from_for(String sheetName, String scenario) {
 	    context.getRequestBodySetup().orderRequestBodySetup(sheetName, scenario);

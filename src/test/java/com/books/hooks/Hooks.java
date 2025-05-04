@@ -22,7 +22,7 @@ import io.restassured.response.Response;
 public class Hooks {
 	
 	private TestContext context;
-	private static Boolean isTokenFetched = true;
+	private static Boolean isTokenFetched = false;
 	
 	public Hooks(TestContext context) {
 		this.context = context;

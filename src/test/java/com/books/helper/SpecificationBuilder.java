@@ -38,8 +38,8 @@ public class SpecificationBuilder {
 	    }
 
 	    if (orderRequestPojo.isIncludeAuth()) {			
-	        //String bearerToken = context.getAuthResponse().getAccessToken(); 
-	    	String bearerToken = "d1d7db7cb800aae4927a13f1ab2916934296e652b64823ed5ce3f5215b31e3bc"; //Delete after trial run
+	        String bearerToken = context.getAuthResponse().getAccessToken(); 
+	    	//String bearerToken = "d1d7db7cb800aae4927a13f1ab2916934296e652b64823ed5ce3f5215b31e3bc"; //Delete after trial run
 	        System.out.println("---------------- Bearer Token: " + bearerToken);
 	        requestBuilder.addHeader("Authorization", "Bearer " + bearerToken);
 	    }

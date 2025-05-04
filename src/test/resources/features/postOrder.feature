@@ -2,7 +2,8 @@
 Feature: Books API Order module - POST
 To validate the user creation through POST request
 
-
+	Background: 
+		Given User is authenticated
 	
   @tag2
    Scenario Outline: Check if the User is able to create a new Order with missing customer name
