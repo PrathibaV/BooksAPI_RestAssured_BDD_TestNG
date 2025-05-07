@@ -6,6 +6,7 @@ import static org.testng.Assert.fail;
 
 import com.books.constants.Endpoints;
 import com.books.helper.TestContext;
+import com.books.helper.TestContextManager;
 import com.books.models.ResponseBodyPojo;
 import com.books.utils.ConfigReader;
 
@@ -15,19 +16,16 @@ import io.restassured.specification.ResponseSpecification;
 
 public class DeleteOrderSteps {
 
-	private TestContext context;
+	private final TestContext context = TestContextManager.getContext();
 	private Response response;
 	private ResponseSpecification responseSpec;
-	
-	public DeleteOrderSteps(TestContext context) {
-		this.context = context;
-	}
-	
+
 	
 	@Given("User creates DELETE request for deleting the order with valid request details from {string} for {string}")
 	public void user_creates_delete_request_for_deleting_the_order_with_valid_request_details_from_for(String sheetName, String scenario) {
-		 context.getRequestBodySetup().orderRequestBodySetup(sheetName, scenario);
-		 context.getSpecificationBuilder().requestBuilder(scenario);	    
+		context.getRequestBodySetup().readTestDataFromExcel(sheetName);
+	    context.getRequestBodySetup().orderRequestBodySetup(scenario);
+	    context.getSpecificationBuilder().requestBuilder(scenario);	    
 	}
 
 	@When("User sends HTTPs request with valid deleteOrder endpoint for {string}")
@@ -39,7 +37,8 @@ public class DeleteOrderSteps {
 	@Then("User receives {int}, {string} in the response of the delete request")
 	public void user_receives_and(int expectedStatusCode, String expectedStatusLine) {
 		responseSpec = context.getSpecificationBuilder().responseBuilder(expectedStatusCode, expectedStatusLine);
-	    response.then().log().all().spec(responseSpec);	    
+	    response.then().log().all().spec(responseSpec);	
+	    
 	}
 
 	@When("User sends HTTPs request with invalid order id for {string}")

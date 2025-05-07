@@ -2,6 +2,10 @@
 Feature: Books API Order module - PATCH
 To validate the update order through PATCH request
 
+		Background: 
+		Given User is authenticated
+		And user creates a new order from sheetName "Post" and scenario "post order background"
+
   @tag1
   Scenario Outline: Check if the User is able to update a new Order with valid data
     Given User creates PATCH request for updating Order with valid request body from "<SheetName>" for "<Scenario>" 

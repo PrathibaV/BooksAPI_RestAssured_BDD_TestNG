@@ -4,35 +4,47 @@ import java.util.List;
 import java.util.Map;
 import com.books.models.OrderRequestPojo;
 
-
 public class RequestBodySetup {
-	
-	private TestContext context;
-	private List<Map<String, String>> testData; 
-	
-	public RequestBodySetup(TestContext context) {
-		this.context = context;
-	}
-	
-	
-	public void orderRequestBodySetup(String sheetName, String scenario) {
-		OrderRequestPojo orderRequestPojo = context.getOrderRequestPojo();
-        
+
+	private final TestContext context = TestContextManager.getContext();
+	private List<Map<String, String>> testData;
+
+
+	public void readTestDataFromExcel(String sheetName) {
 		testData = context.getExcelReader().readData(sheetName);
-		
-		for (Map<String, String> orderDate : testData) {
-			if (orderDate.get("scenario").equals(scenario)) {
-				if((orderDate.get("method").equals("GET")) || (orderDate.get("method").equals("DELETE"))) {
-				orderRequestPojo.setMethod(orderDate.get("method"));
-				orderRequestPojo.setIncludeAuth(orderDate.get("includeAuth"));									
-			} else {
-				orderRequestPojo.setBookId(orderDate.get("bookId"));
-				orderRequestPojo.setCustomerName(orderDate.get("customerName"));
-				orderRequestPojo.setMethod(orderDate.get("method"));
-				orderRequestPojo.setIncludeAuth(orderDate.get("includeAuth"));	
-			}
-				break;
-		}	
 	}
-}
+
+	public void getOrderDataWithIndex(String scenario, int index) {
+
+			Map<String, String> orderData = testData.get(index);
+			System.out.println("============Order data at index: "+index+" ==============is: "+orderData);
+			if (scenario.equals(orderData.get("scenario"))) {
+			OrderRequestPojo orderRequestPojo = context.getOrderRequestPojo();
+			orderRequestPojo.setBookId(orderData.get("bookId"));
+			orderRequestPojo.setCustomerName(orderData.get("customerName"));
+			orderRequestPojo.setMethod(orderData.get("method"));
+			orderRequestPojo.setIncludeAuth(orderData.get("includeAuth"));
+		} else {
+			System.out.println("Ran out of test data for background");
+		}
+	}
+
+	public void orderRequestBodySetup(String scenario) {
+		OrderRequestPojo orderRequestPojo = context.getOrderRequestPojo();
+
+		// testData = context.getExcelReader().readData(sheetName);
+
+		for (Map<String, String> orderData : testData) {
+			if (orderData.get("scenario").equals(scenario)) {
+				String method = orderData.get("method");
+				orderRequestPojo.setMethod(method);
+				orderRequestPojo.setIncludeAuth(orderData.get("includeAuth"));
+				if (method.equals("POST") || method.equals("PATCH")) {
+					orderRequestPojo.setBookId(orderData.get("bookId"));
+					orderRequestPojo.setCustomerName(orderData.get("customerName"));
+				}
+				break;
+			}
+		}
+	}
 }

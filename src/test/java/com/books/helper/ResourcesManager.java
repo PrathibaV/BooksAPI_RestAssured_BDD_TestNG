@@ -2,15 +2,12 @@ package com.books.helper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ResourcesManager {
 
-	private List<String> orderIDs;
+	private List<String> orderIDs = new ArrayList<>();
 	private String accessToken;
-	
-	public ResourcesManager () {
-		this.orderIDs = new ArrayList<>();
-	}
 	
 	public void addOrderId(String orderId) {
 		orderIDs.add(orderId);
@@ -39,4 +36,6 @@ public class ResourcesManager {
 	public String getAccessToken() {
 		return accessToken;
 	}
+	
+
 }

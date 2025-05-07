@@ -13,14 +13,10 @@ import io.restassured.specification.ResponseSpecification;
 
 public class SpecificationBuilder {
 	private ObjectMapper objectMapper = new ObjectMapper();
-	private TestContext context;
+	private final TestContext context = TestContextManager.getContext();
 	private RequestSpecification request;
 	private OrderRequestPojo orderRequestPojo;
-	
-	public SpecificationBuilder(TestContext context) {
-		this.context = context;
-	}
-	
+
 	public SpecificationBuilder() {		
 	}
 	
@@ -38,8 +34,8 @@ public class SpecificationBuilder {
 	    }
 
 	    if (orderRequestPojo.isIncludeAuth()) {			
-	        String bearerToken = context.getAuthResponse().getAccessToken(); 
-	    	//String bearerToken = "d1d7db7cb800aae4927a13f1ab2916934296e652b64823ed5ce3f5215b31e3bc"; //Delete after trial run
+	        //String bearerToken = context.getAuthResponse().getAccessToken(); 
+	    	String bearerToken = "4663fb456db25aed9b046ef866857a467cfb87a6936de22d28723a970852ec5c"; //Delete after trial run
 	        System.out.println("---------------- Bearer Token: " + bearerToken);
 	        requestBuilder.addHeader("Authorization", "Bearer " + bearerToken);
 	    }
@@ -59,7 +55,7 @@ public class SpecificationBuilder {
 	
 	
 	public Response sendHttpRequest(String scenario, String endpoint) {
-		String method = orderRequestPojo.getMethod();
+		String method = context.getOrderRequestPojo().getMethod();
 
 		if ("PATCH".equals(method) || "DELETE".equals(method) || "GET".equals(method) && !scenario.contains("get all")) {
 			if (scenario.contains("invalid order id")) {

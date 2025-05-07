@@ -8,11 +8,8 @@ import static org.hamcrest.Matchers.*;
 import io.restassured.response.Response;
 
 public class ResponseUtils {
-	private TestContext context;
+	private final TestContext context = TestContextManager.getContext();
 
-	public ResponseUtils(TestContext context) {
-		this.context = context;
-	}
 
 	public Object deserializationToPojo(Response response) {
 		String responseBody = response.getBody().asString().trim();

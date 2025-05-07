@@ -2,7 +2,11 @@
 Feature: Books API Order module - DELETE
 To validate the delete orders through DELETE request
 
-  @tag1
+		Background: 
+		Given User is authenticated
+		And user creates a new order from sheetName "Post" and scenario "post order background"
+	
+  @noDeleteOrderHooks
   Scenario Outline: Check if the User is able to delete the order 
     Given User creates DELETE request for deleting the order with valid request details from "<SheetName>" for "<Scenario>" 
     When User sends HTTPs request with valid deleteOrder endpoint for "<Scenario>"

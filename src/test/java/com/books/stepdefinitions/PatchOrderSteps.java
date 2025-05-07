@@ -8,6 +8,7 @@ import static org.hamcrest.Matchers.*;
 
 import com.books.constants.Endpoints;
 import com.books.helper.TestContext;
+import com.books.helper.TestContextManager;
 import com.books.models.ResponseBodyPojo;
 import com.books.utils.ConfigReader;
 
@@ -17,18 +18,15 @@ import io.restassured.specification.ResponseSpecification;
 
 public class PatchOrderSteps {
 
-	private TestContext context;
-	private Response response;
+	private final TestContext context = TestContextManager.getContext();	private Response response;
 	private ResponseSpecification responseSpec;
 	
-	public PatchOrderSteps(TestContext context) {
-		this.context = context;
-	}
 	
 	@Given("User creates PATCH request for updating Order with valid request body from {string} for {string}")
 	public void user_creates_patch_request_for_updating_order_with_valid_request_body_from_for(String sheetName, String scenario) {
-		 context.getRequestBodySetup().orderRequestBodySetup(sheetName, scenario);
-		 context.getSpecificationBuilder().requestBuilder(scenario);	    
+		context.getRequestBodySetup().readTestDataFromExcel(sheetName);
+	    context.getRequestBodySetup().orderRequestBodySetup(scenario);
+	    context.getSpecificationBuilder().requestBuilder(scenario);	    
 	}
 
 	@When("User sends HTTPs request with valid updateOrder endpoint for {string}")

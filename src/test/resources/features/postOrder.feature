@@ -1,4 +1,4 @@
-@tag
+@noDeleteOrderHooks
 Feature: Books API Order module - POST
 To validate the user creation through POST request
 

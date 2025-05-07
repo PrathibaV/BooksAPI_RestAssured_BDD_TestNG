@@ -43,6 +43,10 @@ public class ExcelReader {
 	        // Read data rows
 	        for (int i = 1; i <= sheet.getLastRowNum(); i++) {
 	            Row row = sheet.getRow(i);
+	            if (row == null) {
+	                System.out.println("⚠️ Skipping null row at index: " + i);
+	                continue;
+	            }
 	            Map<String, String> dataMap = new HashMap<>();
 	            for (int j = 0; j < columnCount; j++) {
 	            	Cell currCellValue = row.getCell(j);

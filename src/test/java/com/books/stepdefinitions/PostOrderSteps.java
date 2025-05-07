@@ -5,9 +5,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.testng.Assert.fail;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import com.books.constants.Endpoints;
+import com.books.helper.ResourcesManager;
 import com.books.helper.TestContext;
+import com.books.helper.TestContextManager;
 import com.books.models.ResponseBodyPojo;
+import com.books.utils.ScenarioCounterManager;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -16,27 +21,49 @@ import io.restassured.response.Response;
 import io.restassured.specification.ResponseSpecification;
 
 public class PostOrderSteps {
-	private TestContext context;
+	private final TestContext context = TestContextManager.getContext();
 	private Response response;
 	private ResponseSpecification responseSpec;
 	
-	public PostOrderSteps(TestContext context) {
-		this.context = context;
-	}
 
 	@Given("User is authenticated")
 	public void user_is_authenticated() {
-		if (!context.getResourcesManager().getAccessToken().isEmpty()) {
+		/* if (!context.getResourcesManager().getAccessToken().isEmpty()) {
 			System.out.println("User is authenticated");
 		} else {
 			System.out.println("User is not authenticated");
-		}
+		} */
+	}
+	
+	@Given("user creates a new order from sheetName {string} and scenario {string}")
+	public synchronized void user_creates_a_new_order(String sheetName, String scenario) {
+		//Given
+		int createOrderIndex = ScenarioCounterManager.getNextIndex();
+		context.getRequestBodySetup().readTestDataFromExcel(sheetName);
+		context.getRequestBodySetup().getOrderDataWithIndex(scenario, createOrderIndex);
+		context.getSpecificationBuilder().requestBuilder(scenario);
+		
+		//When
+		String endpoint = Endpoints.createOrder;
+		response = context.getSpecificationBuilder().sendHttpRequest(scenario, endpoint);
+		
+		//Then
+		 response.then().log().all();
+	    Object result = context.getResponseUtils().deserializationToPojo(response);
+	    if (result instanceof ResponseBodyPojo) {
+	        ResponseBodyPojo order = context.getResponseBodyPojo();
+	        context.getResourcesManager().addOrderId(order.getOrderId());
+		    System.out.println("-------------- Order ID: "+order.getOrderId());
+		} else {
+	        fail("Unexpected response format.");
+	    }
 	}
 	
 	
 	@Given("User creates POST request for creating new Order with valid request body from {string} for {string}")
 	public void user_creates_post_request_for_creating_new_order_with_valid_request_body_from_for(String sheetName, String scenario) {
-	    context.getRequestBodySetup().orderRequestBodySetup(sheetName, scenario);
+		context.getRequestBodySetup().readTestDataFromExcel(sheetName);
+	    context.getRequestBodySetup().orderRequestBodySetup(scenario);
 	    context.getSpecificationBuilder().requestBuilder(scenario);	    
 	}
 
@@ -50,14 +77,14 @@ public class PostOrderSteps {
 	public void user_receives_and_with_response_body_containing_the_order_details(int expectedStatusCode, String expectedStatusLine, String expectedContentType) {
 	    //ResponseBodyPojo responsePojo = context.getResponseUtils().deserializationToPojo(response);	        
 	    //String orderID = response.jsonPath().get("orderId");
-	    Object result = context.getResponseUtils().deserializationToPojo(response);
+	  /*  Object result = context.getResponseUtils().deserializationToPojo(response);
 	    if (result instanceof ResponseBodyPojo) {
 	        ResponseBodyPojo order = context.getResponseBodyPojo();
 	        context.getResourcesManager().addOrderId(order.getOrderId());
 		    System.out.println("-------------- Order ID: "+order.getOrderId());
 		} else {
 	        fail("Unexpected response format.");
-	    }	    	
+	    }	*/    	
 	    
 		responseSpec = context.getSpecificationBuilder().responseBuilder(expectedStatusCode, expectedStatusLine, expectedContentType);
 	    response.then().log().all().spec(responseSpec);	
@@ -66,7 +93,8 @@ public class PostOrderSteps {
 
 	@Given("User creates POST request for creating new Order with missing fields from {string} for {string}")
 	public void user_creates_post_request_for_creating_new_order_with_missing_fields_from_for(String sheetName, String scenario) {
-	    context.getRequestBodySetup().orderRequestBodySetup(sheetName, scenario);
+		context.getRequestBodySetup().readTestDataFromExcel(sheetName);
+	    context.getRequestBodySetup().orderRequestBodySetup(scenario);
 	    context.getSpecificationBuilder().requestBuilder(scenario);	  	    
 	}
 

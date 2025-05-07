@@ -7,6 +7,8 @@ import static org.testng.Assert.fail;
 import com.books.constants.Endpoints;
 import com.books.helper.ResponseUtils;
 import com.books.helper.TestContext;
+import com.books.helper.TestContextManager;
+import com.books.helper.TestContextManager;
 import com.books.models.OrderRequestPojo;
 import com.books.models.ResponseBodyPojo;
 
@@ -19,18 +21,16 @@ import io.restassured.specification.ResponseSpecification;
 
 public class GetOrderSteps {
 
-	private TestContext context;
+	private final TestContext context = TestContextManager.getContext();	
 	private Response response;
 	private ResponseSpecification responseSpec;
 	
-	public GetOrderSteps(TestContext context) {
-		this.context = context;
-	}
 	
 	@Given("User creates GET request for retrieving all the Orders with valid request details from {string} for {string}")
 	public void user_creates_get_request_for_retrieving_all_the_orders_with_valid_request_details_from_for(String sheetName, String scenario) {
-		 context.getRequestBodySetup().orderRequestBodySetup(sheetName, scenario);
-		 context.getSpecificationBuilder().requestBuilder(scenario);		    
+		context.getRequestBodySetup().readTestDataFromExcel(sheetName);
+	    context.getRequestBodySetup().orderRequestBodySetup(scenario);
+	    context.getSpecificationBuilder().requestBuilder(scenario);		    
 	}
 
 	@When("User sends HTTPs request with valid getAllOrders endpoint for {string}")
@@ -60,8 +60,9 @@ public class GetOrderSteps {
 
 	@Given("User creates GET request for retrieving an Order with valid request details from {string} for {string}")
 	public void user_creates_get_request_for_retrieving_an_order_with_valid_request_details_from_for(String sheetName, String scenario) {
-		 context.getRequestBodySetup().orderRequestBodySetup(sheetName, scenario);
-		 context.getSpecificationBuilder().requestBuilder(scenario);	    
+		context.getRequestBodySetup().readTestDataFromExcel(sheetName);
+	    context.getRequestBodySetup().orderRequestBodySetup(scenario);
+	    context.getSpecificationBuilder().requestBuilder(scenario);	    
 	}
 
 	@When("User sends HTTPs request with valid orderID for {string}")

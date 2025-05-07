@@ -8,14 +8,14 @@ import com.books.utils.ExcelReader;
 
 public class TestContext {
 
-	private static OrderRequestPojo orderRequestPojo = new OrderRequestPojo();
-	private static ResponseBodyPojo responseBodyPojo = new ResponseBodyPojo();
+	private OrderRequestPojo orderRequestPojo = new OrderRequestPojo();
+	private ResponseBodyPojo responseBodyPojo = new ResponseBodyPojo();
 	private ExcelReader excelReader;
-	private static ResourcesManager resourcesManager = new ResourcesManager();
+	private ResourcesManager resourcesManager = new ResourcesManager();
 	private SpecificationBuilder specificationBuilder;
 	private RequestBodySetup requestBodySetup;
 	private ResponseUtils responseUtils;
-	private static ResponseBodyPojo authResponse;
+	private ResponseBodyPojo authResponse;
 	private ResponseBodyPojo[] responseBodyPojoArray;
 	
 	
@@ -49,15 +49,15 @@ public class TestContext {
 	}	
 	
 	public SpecificationBuilder getSpecificationBuilder() {
-		return specificationBuilder == null ? specificationBuilder = new SpecificationBuilder(this) : specificationBuilder;
+		return specificationBuilder == null ? specificationBuilder = new SpecificationBuilder() : specificationBuilder;
 	}	
 	
 	public RequestBodySetup getRequestBodySetup() {
-		return requestBodySetup == null ? requestBodySetup = new RequestBodySetup(this) : requestBodySetup;
+		return requestBodySetup == null ? requestBodySetup = new RequestBodySetup() : requestBodySetup;
 	}
 	
 	public ResponseUtils getResponseUtils() {
-		return responseUtils == null ? responseUtils = new ResponseUtils(this) : responseUtils;
+		return responseUtils == null ? responseUtils = new ResponseUtils() : responseUtils;
 	}
 
 	public void setResponseBodyPojoList(ResponseBodyPojo[] pojoArray) {
