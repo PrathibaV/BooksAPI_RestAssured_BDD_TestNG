@@ -1,6 +1,9 @@
 package com.books.stepdefinitions;
 
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.books.constants.Endpoints;
 import com.books.context.ScenarioContext;
 import com.books.context.ScenarioContextManager;
@@ -13,6 +16,7 @@ import io.restassured.specification.ResponseSpecification;
 
 public class DeleteOrderSteps {
 
+	private static final Logger logger = LogManager.getLogger(CommonSteps.class);
 	private final ScenarioContext context = ScenarioContextManager.getContext();
 	private Response response;
 	private ResponseSpecification responseSpec;
@@ -20,6 +24,7 @@ public class DeleteOrderSteps {
 	
 	@Given("User creates DELETE request for deleting the order with valid request details from {string} for {string}")
 	public void user_creates_delete_request_for_deleting_the_order_with_valid_request_details_from_for(String sheetName, String scenario) {
+		logger.info("Delete order testing starts");
 		context.getRequestBodySetup().readTestDataFromExcel(sheetName);
 	    context.getRequestBodySetup().orderRequestBodySetup(scenario);
 	    context.getSpecificationBuilder().requestBuilder(scenario);	    
@@ -33,9 +38,10 @@ public class DeleteOrderSteps {
 	
 	@Then("User receives {int}, {string} in the response of the delete request")
 	public void user_receives_and(int expectedStatusCode, String expectedStatusLine) {
+	    TestContext.getInstance().clearOrderId();
+
 		responseSpec = context.getSpecificationBuilder().responseBuilder(expectedStatusCode, expectedStatusLine);
 	    response.then().spec(responseSpec);	//.log().all()
-	    TestContext.getInstance().clearOrderId();
 	}
 
 	@When("User sends HTTPs request with invalid order id for {string}")
@@ -50,7 +56,8 @@ public class DeleteOrderSteps {
 		responseSpec = context.getSpecificationBuilder().responseBuilder(expectedStatusCode, expectedStatusLine, expectedContentType);
 	    response.then().spec(responseSpec);  //.log().all()
 	    
-	    context.getResponseUtils().errorMessageValidation(response, expectedErrorMessage);    
+	    context.getResponseUtils().errorMessageValidation(response, expectedErrorMessage);  
+	    logger.info("Delete order testing ends");
 	}
 
 }

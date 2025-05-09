@@ -4,9 +4,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.testng.Assert.fail;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.testng.ITestResult;
 import org.testng.annotations.AfterSuite;
 
 import com.books.constants.Endpoints;
@@ -15,6 +20,7 @@ import com.books.context.ScenarioContextManager;
 import com.books.context.TestContext;
 import com.books.models.AuthorizationPojo;
 import com.books.models.ResponseBodyPojo;
+import com.books.stepdefinitions.CommonSteps;
 import com.books.utils.ConfigReader;
 
 import io.cucumber.java.*;
@@ -27,8 +33,9 @@ public class Hooks {
 	private final ScenarioContext context = ScenarioContextManager.getContext();
 
 	
+
 	
-	@After
+	/*@After
 	public void deleteOrder(Scenario scenario) {
 		try {
 		System.out.println("===========Context Hash: " + context.hashCode() + "===============Scenario name: "+scenario.getName());
@@ -55,7 +62,7 @@ public class Hooks {
 		} finally {
 	        ScenarioContextManager.removeContext();  // Clear thread-local context
 	    }
-	}
+	} */
 	
 	@AfterAll
 	public static void deleteAllOrders() {

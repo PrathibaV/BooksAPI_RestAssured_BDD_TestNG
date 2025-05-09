@@ -2,6 +2,9 @@ package com.books.stepdefinitions;
 
 import static org.testng.Assert.fail;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.books.constants.Endpoints;
 import com.books.context.ScenarioContext;
 import com.books.context.ScenarioContextManager;
@@ -17,13 +20,15 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 public class CommonSteps {
-
+	
+	private static final Logger logger = LogManager.getLogger(CommonSteps.class);
 	private final ScenarioContext context = ScenarioContextManager.getContext();
 	private Response response;
 
 	@Given("User is authenticated")
 	public void user_is_authenticated() {
 		if (TestContext.getInstance().getAccessToken() == null) {
+			logger.info("User authentication begins");
 			AuthorizationPojo authPojo = new AuthorizationPojo();
 			authPojo.setClientName(ConfigReader.getProperties().getString("clientName"));
 			authPojo.setClientEmail(ConfigReader.getProperties().getString("clientEmail"));
@@ -36,16 +41,16 @@ public class CommonSteps {
 				String token = response.jsonPath().get("accessToken");
 				TestContext.getInstance().setAccessToken(token);
 			} else {
-				System.out.println("Check the user details");
+				logger.info("Check the user details");
 			}
 		} else {
-			System.out.println("User is authenticated");
+			logger.info("User is authenticated");
 		}
 	}
 
 	@Given("user creates a new order from sheetName {string} and scenario {string}")
 	public synchronized void user_creates_a_new_order(String sheetName, String scenario) {
-		System.out.println("=================check if orderId is present: " + TestContext.getInstance().getOrderId());
+		logger.info("=================check if orderId is present: " + TestContext.getInstance().getOrderId());
 		if (TestContext.getInstance().getOrderId() == null) {
 			// Given
 			int createOrderIndex = ScenarioCounterManager.getNextIndex();
@@ -62,7 +67,7 @@ public class CommonSteps {
 			if (result instanceof ResponseBodyPojo) {
 				ResponseBodyPojo order = context.getResponseBodyPojo();
 				TestContext.getInstance().setOrderId(order.getOrderId());
-				System.out.println("-------------- Order ID created via background: " + order.getOrderId());
+				logger.info("-------------- Order ID created via background: " + order.getOrderId());
 			} else {
 				fail("Unexpected response format.");
 			}

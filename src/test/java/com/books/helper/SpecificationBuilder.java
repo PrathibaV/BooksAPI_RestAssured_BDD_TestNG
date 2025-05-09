@@ -3,6 +3,7 @@ package com.books.helper;
 import com.books.context.ScenarioContext;
 import com.books.context.ScenarioContextManager;
 import com.books.context.TestContext;
+import com.books.listener.RestAssuredListener;
 import com.books.models.OrderRequestPojo;
 import com.books.utils.ConfigReader;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,6 +49,7 @@ public class SpecificationBuilder {
 			requestBuilder.addHeader("Authorization", "Bearer " + bearerToken);
 		}
 		
+		requestBuilder.addFilter(new RestAssuredListener());
 		requestBuilder.addFilter(new RequestLoggingFilter());
 		requestBuilder.addFilter(new ResponseLoggingFilter());
 
