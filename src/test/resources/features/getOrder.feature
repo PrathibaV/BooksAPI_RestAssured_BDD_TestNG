@@ -6,7 +6,7 @@ To validate the get order through GET request
 		Given User is authenticated
 		And user creates a new order from sheetName "Post" and scenario "post order background"
 		
-     @tag3
+     @tag3 @wip
    Scenario Outline: Check if the User is able to get an Order with valid orderID
     Given User creates GET request for retrieving an Order with valid request details from "<SheetName>" for "<Scenario>" 
     When User sends HTTPs request with valid orderID for "<Scenario>"

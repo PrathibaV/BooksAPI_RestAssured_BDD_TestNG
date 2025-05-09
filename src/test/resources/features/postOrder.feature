@@ -5,8 +5,8 @@ To validate the user creation through POST request
 	Background: 
 		Given User is authenticated
 	
-  @tag2
-   Scenario Outline: Check if the User is able to create a new Order with missing customer name
+  @DeleteOrderHooks
+   Scenario Outline: Check if the User is able to create a new Order with missing fields
     Given User creates POST request for creating new Order with missing fields from "<SheetName>" for "<Scenario>" 
     When User sends HTTPs request with valid createOrder endpoint for "<Scenario>"
     Then User receives <ExpectedStatusCode>, "<ExpectedStatusLine>", "<ContentType>" and "<ErrorMessage>" with response body containing the Order details
@@ -26,7 +26,7 @@ To validate the user creation through POST request
 		| SheetName  | Scenario | ExpectedStatusCode | ExpectedStatusLine  |
 		| Post 	| with invalid endpoint | 404	| Not Found	|
 		
-  @tag1
+  @DeleteOrderHooks @wip
   Scenario Outline: Check if the User is able to create a new Order with valid data
     Given User creates POST request for creating new Order with valid request body from "<SheetName>" for "<Scenario>" 
     When User sends HTTPs request with valid createOrder endpoint for "<Scenario>"

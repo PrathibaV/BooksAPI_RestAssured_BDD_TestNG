@@ -6,7 +6,7 @@ To validate the update order through PATCH request
 		Given User is authenticated
 		And user creates a new order from sheetName "Post" and scenario "post order background"
 
-  @tag1
+  @tag1 @wip
   Scenario Outline: Check if the User is able to update a new Order with valid data
     Given User creates PATCH request for updating Order with valid request body from "<SheetName>" for "<Scenario>" 
     When User sends HTTPs request with valid updateOrder endpoint for "<Scenario>"

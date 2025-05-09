@@ -1,15 +1,18 @@
 package com.books.helper;
 
+import com.books.context.ScenarioContext;
+import com.books.context.ScenarioContextManager;
+import com.books.context.TestContext;
 import com.books.models.OrderRequestPojo;
 import com.books.models.ResponseBodyPojo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.testng.Assert.fail;
 
 import io.restassured.response.Response;
 
 public class ResponseUtils {
-	private final TestContext context = TestContextManager.getContext();
-
+	private final ScenarioContext context = ScenarioContextManager.getContext();
 
 	public Object deserializationToPojo(Response response) {
 		String responseBody = response.getBody().asString().trim();
@@ -36,7 +39,24 @@ public class ResponseUtils {
 
 	public static void validateOrderFieldsData(ResponseBodyPojo order, OrderRequestPojo payload, String orderId) {
 		assertThat("Customer name mismatch", order.getCustomerName(), equalTo(payload.getCustomerName()));
-		assertThat("Book ID mismatch", order.getBookId(), equalTo(payload.getBookId()));
+		assertThat("Book ID mismatch", order.getBookId(), equalTo(Integer.parseInt(payload.getBookId())));
 		assertThat("Order ID mismatch", order.getId(), equalTo(orderId));
+	}
+
+	public void errorMessageValidation(Response response, String errorMessage) {
+		Object result = context.getResponseUtils().deserializationToPojo(response);
+		if (result instanceof ResponseBodyPojo) {
+			ResponseBodyPojo order = context.getResponseBodyPojo();
+			assertThat(order.getError(), equalTo(errorMessage));
+		} else {
+			fail("Unexpected response format.");
+		}
+	}
+
+	public void addIDToList(Response response) {
+		if (response.getStatusCode() == 201) {
+			String orderId = response.body().jsonPath().get("orderId");
+			TestContext.getInstance().addOrderIdToList(orderId);
+		}
 	}
 }

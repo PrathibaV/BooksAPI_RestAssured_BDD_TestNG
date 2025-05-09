@@ -5,7 +5,7 @@ To validate the get all orders through GET request
 	Background: 
 		Given User is authenticated
 
-  @tag1
+  @tag1 @wip
   Scenario Outline: Check if the User is able to get all the order details
     Given User creates GET request for retrieving all the Orders with valid request details from "<SheetName>" for "<Scenario>" 
     When User sends HTTPs request with valid getAllOrders endpoint for "<Scenario>"

@@ -2,17 +2,9 @@ package com.books.stepdefinitions;
 
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.testng.Assert.fail;
-
-import java.util.concurrent.atomic.AtomicInteger;
-
 import com.books.constants.Endpoints;
-import com.books.helper.ResourcesManager;
-import com.books.helper.TestContext;
-import com.books.helper.TestContextManager;
-import com.books.models.ResponseBodyPojo;
-import com.books.utils.ScenarioCounterManager;
+import com.books.context.ScenarioContext;
+import com.books.context.ScenarioContextManager;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -21,43 +13,10 @@ import io.restassured.response.Response;
 import io.restassured.specification.ResponseSpecification;
 
 public class PostOrderSteps {
-	private final TestContext context = TestContextManager.getContext();
+	private final ScenarioContext context = ScenarioContextManager.getContext();
 	private Response response;
 	private ResponseSpecification responseSpec;
 	
-
-	@Given("User is authenticated")
-	public void user_is_authenticated() {
-		/* if (!context.getResourcesManager().getAccessToken().isEmpty()) {
-			System.out.println("User is authenticated");
-		} else {
-			System.out.println("User is not authenticated");
-		} */
-	}
-	
-	@Given("user creates a new order from sheetName {string} and scenario {string}")
-	public synchronized void user_creates_a_new_order(String sheetName, String scenario) {
-		//Given
-		int createOrderIndex = ScenarioCounterManager.getNextIndex();
-		context.getRequestBodySetup().readTestDataFromExcel(sheetName);
-		context.getRequestBodySetup().getOrderDataWithIndex(scenario, createOrderIndex);
-		context.getSpecificationBuilder().requestBuilder(scenario);
-		
-		//When
-		String endpoint = Endpoints.createOrder;
-		response = context.getSpecificationBuilder().sendHttpRequest(scenario, endpoint);
-		
-		//Then
-		 response.then().log().all();
-	    Object result = context.getResponseUtils().deserializationToPojo(response);
-	    if (result instanceof ResponseBodyPojo) {
-	        ResponseBodyPojo order = context.getResponseBodyPojo();
-	        context.getResourcesManager().addOrderId(order.getOrderId());
-		    System.out.println("-------------- Order ID: "+order.getOrderId());
-		} else {
-	        fail("Unexpected response format.");
-	    }
-	}
 	
 	
 	@Given("User creates POST request for creating new Order with valid request body from {string} for {string}")
@@ -74,21 +33,11 @@ public class PostOrderSteps {
 	}
 
 	@Then("User receives {int}, {string} and {string} with response body containing the Order details")
-	public void user_receives_and_with_response_body_containing_the_order_details(int expectedStatusCode, String expectedStatusLine, String expectedContentType) {
-	    //ResponseBodyPojo responsePojo = context.getResponseUtils().deserializationToPojo(response);	        
-	    //String orderID = response.jsonPath().get("orderId");
-	  /*  Object result = context.getResponseUtils().deserializationToPojo(response);
-	    if (result instanceof ResponseBodyPojo) {
-	        ResponseBodyPojo order = context.getResponseBodyPojo();
-	        context.getResourcesManager().addOrderId(order.getOrderId());
-		    System.out.println("-------------- Order ID: "+order.getOrderId());
-		} else {
-	        fail("Unexpected response format.");
-	    }	*/    	
-	    
+	public void user_receives_and_with_response_body_containing_the_order_details(int expectedStatusCode, String expectedStatusLine, String expectedContentType) { 	
+		context.getResponseUtils().addIDToList(response);
 		responseSpec = context.getSpecificationBuilder().responseBuilder(expectedStatusCode, expectedStatusLine, expectedContentType);
 	    response.then().log().all().spec(responseSpec);	
-	    assertThat(response.getBody().asString(), matchesJsonSchemaInClasspath("postOrderSchema.json"));	
+	    assertThat(response.getBody().asString(), matchesJsonSchemaInClasspath("postOrderSchema.json"));	    
 	}
 
 	@Given("User creates POST request for creating new Order with missing fields from {string} for {string}")
@@ -100,18 +49,12 @@ public class PostOrderSteps {
 
 	@Then("User receives {int}, {string}, {string} and {string} with response body containing the Order details")
 	public void user_receives_and_with_response_body_containing_the_order_details(int expectedStatusCode, String expectedStatusLine, String expectedContentType, String errorMessage) {
-	    //ResponseBodyPojo responsePojo = context.getResponseUtils().deserializationToPojo(response);	        
+		context.getResponseUtils().addIDToList(response);
 
 		responseSpec = context.getSpecificationBuilder().responseBuilder(expectedStatusCode, expectedStatusLine, expectedContentType);
 	    response.then().log().all().spec(responseSpec);
-	    //Assert.assertEquals(responsePojo.getError(),errorMessage);
-	    Object result = context.getResponseUtils().deserializationToPojo(response);
-	    if (result instanceof ResponseBodyPojo) {
-	        ResponseBodyPojo order = context.getResponseBodyPojo();
-	        assertThat(order.getError(), equalTo(errorMessage));	    
-	    } else {
-	        fail("Unexpected response format.");
-	    }
+
+	    context.getResponseUtils().errorMessageValidation(response, errorMessage);
 	}
 
 	@When("User sends HTTPs request with invalid endpoint for {string}")

@@ -2,13 +2,16 @@ package com.books.helper;
 
 import java.util.List;
 import java.util.Map;
+
+import com.books.context.ScenarioContext;
+import com.books.context.ScenarioContextManager;
+import com.books.context.TestContext;
 import com.books.models.OrderRequestPojo;
 
 public class RequestBodySetup {
 
-	private final TestContext context = TestContextManager.getContext();
+	private final ScenarioContext context = ScenarioContextManager.getContext();
 	private List<Map<String, String>> testData;
-
 
 	public void readTestDataFromExcel(String sheetName) {
 		testData = context.getExcelReader().readData(sheetName);
@@ -16,10 +19,10 @@ public class RequestBodySetup {
 
 	public void getOrderDataWithIndex(String scenario, int index) {
 
-			Map<String, String> orderData = testData.get(index);
-			System.out.println("============Order data at index: "+index+" ==============is: "+orderData);
-			if (scenario.equals(orderData.get("scenario"))) {
-			OrderRequestPojo orderRequestPojo = context.getOrderRequestPojo();
+		Map<String, String> orderData = testData.get(index);
+		System.out.println("============Order data at index: " + index + " ==============is: " + orderData);
+		if (scenario.equals(orderData.get("scenario"))) {
+			OrderRequestPojo orderRequestPojo = TestContext.getInstance().getOrderRequestPojo();
 			orderRequestPojo.setBookId(orderData.get("bookId"));
 			orderRequestPojo.setCustomerName(orderData.get("customerName"));
 			orderRequestPojo.setMethod(orderData.get("method"));
@@ -31,8 +34,6 @@ public class RequestBodySetup {
 
 	public void orderRequestBodySetup(String scenario) {
 		OrderRequestPojo orderRequestPojo = context.getOrderRequestPojo();
-
-		// testData = context.getExcelReader().readData(sheetName);
 
 		for (Map<String, String> orderData : testData) {
 			if (orderData.get("scenario").equals(scenario)) {

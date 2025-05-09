@@ -1,32 +1,25 @@
-package com.books.helper;
+package com.books.context;
 
 import com.books.constants.Endpoints;
+import com.books.helper.RequestBodySetup;
+import com.books.helper.ResponseUtils;
+import com.books.helper.SpecificationBuilder;
 import com.books.models.OrderRequestPojo;
 import com.books.models.ResponseBodyPojo;
 import com.books.utils.ExcelReader;
 
 
-public class TestContext {
+public class ScenarioContext {
 
 	private OrderRequestPojo orderRequestPojo = new OrderRequestPojo();
 	private ResponseBodyPojo responseBodyPojo = new ResponseBodyPojo();
 	private ExcelReader excelReader;
-	private ResourcesManager resourcesManager = new ResourcesManager();
 	private SpecificationBuilder specificationBuilder;
 	private RequestBodySetup requestBodySetup;
 	private ResponseUtils responseUtils;
-	private ResponseBodyPojo authResponse;
 	private ResponseBodyPojo[] responseBodyPojoArray;
 	
-	
-    public void setAuthResponse(ResponseBodyPojo responseBody) {
-    	authResponse = responseBody;
-    }
 
-    // Method to retrieve the auth response 
-    public ResponseBodyPojo getAuthResponse() {
-        return authResponse;
-    }
 	
 	public OrderRequestPojo getOrderRequestPojo() {
 		return orderRequestPojo;
@@ -43,10 +36,6 @@ public class TestContext {
 	public ExcelReader getExcelReader() {
 		return excelReader == null ? excelReader = new ExcelReader() : excelReader;
 	}
-	
-	public ResourcesManager getResourcesManager() {
-		return resourcesManager;
-	}	
 	
 	public SpecificationBuilder getSpecificationBuilder() {
 		return specificationBuilder == null ? specificationBuilder = new SpecificationBuilder() : specificationBuilder;

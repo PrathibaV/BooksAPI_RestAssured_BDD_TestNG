@@ -2,8 +2,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.petstore.swagger</groupId>
-	<artifactId>petstore_restassured_bdd</artifactId>
+	<groupId>com.books.api</groupId>
+	<artifactId>booksapi_restassured_bdd</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<dependencies>
 		<dependency>
@@ -84,9 +84,6 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.2.5</version>
 				<configuration>
-					<!--<parallel>methods</parallel>
-							<threadCount>4</threadCount>
-							<perCoreThreadCount>false</perCoreThreadCount>-->
 					<suiteXmlFiles>
 						<suiteXmlFile>testng.xml</suiteXmlFile>
 					</suiteXmlFiles>

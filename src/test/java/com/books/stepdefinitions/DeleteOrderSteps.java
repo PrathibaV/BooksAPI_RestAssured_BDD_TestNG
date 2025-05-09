@@ -1,13 +1,10 @@
 package com.books.stepdefinitions;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-import static org.testng.Assert.fail;
 
 import com.books.constants.Endpoints;
-import com.books.helper.TestContext;
-import com.books.helper.TestContextManager;
-import com.books.models.ResponseBodyPojo;
+import com.books.context.ScenarioContext;
+import com.books.context.ScenarioContextManager;
+import com.books.context.TestContext;
 import com.books.utils.ConfigReader;
 
 import io.cucumber.java.en.*;
@@ -16,7 +13,7 @@ import io.restassured.specification.ResponseSpecification;
 
 public class DeleteOrderSteps {
 
-	private final TestContext context = TestContextManager.getContext();
+	private final ScenarioContext context = ScenarioContextManager.getContext();
 	private Response response;
 	private ResponseSpecification responseSpec;
 
@@ -38,7 +35,7 @@ public class DeleteOrderSteps {
 	public void user_receives_and(int expectedStatusCode, String expectedStatusLine) {
 		responseSpec = context.getSpecificationBuilder().responseBuilder(expectedStatusCode, expectedStatusLine);
 	    response.then().log().all().spec(responseSpec);	
-	    
+	    TestContext.getInstance().clearOrderId();
 	}
 
 	@When("User sends HTTPs request with invalid order id for {string}")
@@ -52,15 +49,8 @@ public class DeleteOrderSteps {
 		String expectedErrorMessage = errorMessage.replace("{orderId}", ConfigReader.getProperties().getString("invalidOrderID"));
 		responseSpec = context.getSpecificationBuilder().responseBuilder(expectedStatusCode, expectedStatusLine, expectedContentType);
 	    response.then().log().all().spec(responseSpec);
-	   // ResponseBodyPojo responsePojo = context.getResponseUtils().deserializationToPojo(response);
-	    //assertThat(responsePojo.getError(), equalTo(expectedErrorMessage));
-	    Object result = context.getResponseUtils().deserializationToPojo(response);
-	    if (result instanceof ResponseBodyPojo) {
-	        ResponseBodyPojo order = context.getResponseBodyPojo();
-	        assertThat(order.getError(), equalTo(expectedErrorMessage));	    
-	    } else {
-	        fail("Unexpected response format.");
-	    }	    
+	    
+	    context.getResponseUtils().errorMessageValidation(response, expectedErrorMessage);    
 	}
 
 }
