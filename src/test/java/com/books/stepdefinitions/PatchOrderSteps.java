@@ -39,11 +39,8 @@ public class PatchOrderSteps {
 	@Then("User receives {int}, {string} and {string} with response body containing the updated order details")
 	public void user_receives_and_with_response_body_containing_the_updated_order_details(int expectedStatusCode,
 			String expectedStatusLine, String expectedContentType) {
-		responseSpec = context.getSpecificationBuilder().responseBuilder(expectedStatusCode, expectedStatusLine,
-				expectedContentType);
-		response.then().log().all().spec(responseSpec);
-		// ResponseBodyPojo responsePojo =
-		// context.getResponseUtils().deserializationToPojo(response);
+		responseSpec = context.getSpecificationBuilder().responseBuilder(expectedStatusCode, expectedStatusLine);
+		response.then().spec(responseSpec);
 	}
 
 	@Then("User receives {int}, {string}, {string} and {string} with response body containing the updated Order details")
@@ -51,7 +48,7 @@ public class PatchOrderSteps {
 			String expectedStatusLine, String expectedContentType, String errorMessage) {
 		responseSpec = context.getSpecificationBuilder().responseBuilder(expectedStatusCode, expectedStatusLine,
 				expectedContentType);
-		response.then().log().all().spec(responseSpec);
+		response.then().spec(responseSpec);
 
 		context.getResponseUtils().errorMessageValidation(response, errorMessage);
 	}
@@ -69,7 +66,7 @@ public class PatchOrderSteps {
 				ConfigReader.getProperties().getString("invalidOrderID"));
 		responseSpec = context.getSpecificationBuilder().responseBuilder(expectedStatusCode, expectedStatusLine,
 				expectedContentType);
-		response.then().log().all().spec(responseSpec);
+		response.then().spec(responseSpec);
 
 		context.getResponseUtils().errorMessageValidation(response, expectedErrorMessage);
 	}

@@ -43,7 +43,7 @@ public class GetOrderSteps {
 			String expectedStatusLine, String expectedContentType) {
 		responseSpec = context.getSpecificationBuilder().responseBuilder(expectedStatusCode, expectedStatusLine,
 				expectedContentType);
-		response.then().log().all().spec(responseSpec);
+		response.then().spec(responseSpec);
 		assertThat(response.getBody().asString(), matchesJsonSchemaInClasspath("getAllOrdersSchema.json"));
 
 		Object result = context.getResponseUtils().deserializationToPojo(response);
@@ -80,7 +80,7 @@ public class GetOrderSteps {
 		OrderRequestPojo payload = TestContext.getInstance().getOrderRequestPojo();
 		responseSpec = context.getSpecificationBuilder().responseBuilder(expectedStatusCode, expectedStatusLine,
 				expectedContentType);
-		response.then().log().all().spec(responseSpec);
+		response.then().spec(responseSpec);
 		assertThat(response.getBody().asString(), matchesJsonSchemaInClasspath("getSingleOrderSchema.json"));
 
 		Object result = context.getResponseUtils().deserializationToPojo(response);
@@ -102,7 +102,7 @@ public class GetOrderSteps {
 	@Then("User receives {int}, {string} in the response of the get request")
 	public void user_receives_and(int expectedStatusCode, String expectedStatusLine) {
 		responseSpec = context.getSpecificationBuilder().responseBuilder(expectedStatusCode, expectedStatusLine);
-		response.then().log().all().spec(responseSpec);
+		response.then().spec(responseSpec);
 	}
 
 }

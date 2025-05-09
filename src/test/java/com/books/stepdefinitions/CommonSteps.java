@@ -58,7 +58,6 @@ public class CommonSteps {
 			response = context.getSpecificationBuilder().sendHttpRequest(scenario, endpoint);
 
 			// Then
-			response.then().log().all();
 			Object result = context.getResponseUtils().deserializationToPojo(response);
 			if (result instanceof ResponseBodyPojo) {
 				ResponseBodyPojo order = context.getResponseBodyPojo();

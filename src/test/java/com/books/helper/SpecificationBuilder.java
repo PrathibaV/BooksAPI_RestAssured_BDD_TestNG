@@ -15,6 +15,7 @@ import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
+import static org.hamcrest.Matchers.lessThan;
 
 public class SpecificationBuilder {
 	private ObjectMapper objectMapper = new ObjectMapper();
@@ -93,9 +94,12 @@ public class SpecificationBuilder {
 
 	public ResponseSpecification responseBuilder(int expectedStatusCode, String expectedStatusLine,
 			String expectedContentType) {
+		long maxAllowedResponseTime = Long.parseLong(ConfigReader.getProperties().getString("maxResponseTimeMillis"));
+
 		ResponseSpecBuilder responseSpecBuilder = new ResponseSpecBuilder();
 		responseSpecBuilder.expectStatusCode(expectedStatusCode);
-		// responseSpecBuilder.expectContentType(expectedContentType);
+		responseSpecBuilder.expectResponseTime(lessThan(maxAllowedResponseTime));
+		responseSpecBuilder.expectContentType(expectedContentType);
 		// responseSpecBuilder.expectStatusLine(expectedStatusLine);
 
 		ResponseSpecification responseSpec = responseSpecBuilder.build();
@@ -104,8 +108,11 @@ public class SpecificationBuilder {
 	}
 
 	public ResponseSpecification responseBuilder(int expectedStatusCode, String expectedStatusLine) {
+		long maxAllowedResponseTime = Long.parseLong(ConfigReader.getProperties().getString("maxResponseTimeMillis"));
+
 		ResponseSpecBuilder responseSpecBuilder = new ResponseSpecBuilder();
 		responseSpecBuilder.expectStatusCode(expectedStatusCode);
+		responseSpecBuilder.expectResponseTime(lessThan(maxAllowedResponseTime));
 		// responseSpecBuilder.expectStatusLine(expectedStatusLine);
 
 		ResponseSpecification responseSpec = responseSpecBuilder.build();

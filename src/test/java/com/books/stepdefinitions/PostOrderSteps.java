@@ -36,7 +36,7 @@ public class PostOrderSteps {
 	public void user_receives_and_with_response_body_containing_the_order_details(int expectedStatusCode, String expectedStatusLine, String expectedContentType) { 	
 		context.getResponseUtils().addIDToList(response);
 		responseSpec = context.getSpecificationBuilder().responseBuilder(expectedStatusCode, expectedStatusLine, expectedContentType);
-	    response.then().log().all().spec(responseSpec);	
+	    response.then().spec(responseSpec);	//then().log().all()
 	    assertThat(response.getBody().asString(), matchesJsonSchemaInClasspath("postOrderSchema.json"));	    
 	}
 
@@ -52,7 +52,7 @@ public class PostOrderSteps {
 		context.getResponseUtils().addIDToList(response);
 
 		responseSpec = context.getSpecificationBuilder().responseBuilder(expectedStatusCode, expectedStatusLine, expectedContentType);
-	    response.then().log().all().spec(responseSpec);
+	    response.then().spec(responseSpec);	  //.log().all()
 
 	    context.getResponseUtils().errorMessageValidation(response, errorMessage);
 	}
@@ -66,7 +66,7 @@ public class PostOrderSteps {
 	@Then("User receives {int}, {string} in the response")
 	public void user_receives_and(int expectedStatusCode, String expectedStatusLine) {
 		responseSpec = context.getSpecificationBuilder().responseBuilder(expectedStatusCode, expectedStatusLine);
-	    response.then().log().all().spec(responseSpec);	    
+	    response.then().spec(responseSpec);	    //.log().all()
 	}
 
 }

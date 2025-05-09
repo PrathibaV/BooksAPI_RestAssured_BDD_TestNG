@@ -34,7 +34,7 @@ public class DeleteOrderSteps {
 	@Then("User receives {int}, {string} in the response of the delete request")
 	public void user_receives_and(int expectedStatusCode, String expectedStatusLine) {
 		responseSpec = context.getSpecificationBuilder().responseBuilder(expectedStatusCode, expectedStatusLine);
-	    response.then().log().all().spec(responseSpec);	
+	    response.then().spec(responseSpec);	//.log().all()
 	    TestContext.getInstance().clearOrderId();
 	}
 
@@ -48,7 +48,7 @@ public class DeleteOrderSteps {
 	public void user_receives_and_in_the_response_body(int expectedStatusCode, String expectedStatusLine, String expectedContentType, String errorMessage) {
 		String expectedErrorMessage = errorMessage.replace("{orderId}", ConfigReader.getProperties().getString("invalidOrderID"));
 		responseSpec = context.getSpecificationBuilder().responseBuilder(expectedStatusCode, expectedStatusLine, expectedContentType);
-	    response.then().log().all().spec(responseSpec);
+	    response.then().spec(responseSpec);  //.log().all()
 	    
 	    context.getResponseUtils().errorMessageValidation(response, expectedErrorMessage);    
 	}
