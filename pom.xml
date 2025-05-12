@@ -88,6 +88,13 @@
 			<version>2.20.0</version>
 		</dependency>
 
+<!-- https://mvnrepository.com/artifact/com.aventstack/chaintest-cucumber-jvm -->
+<dependency>
+    <groupId>com.aventstack</groupId>
+    <artifactId>chaintest-cucumber-jvm</artifactId>
+    <version>1.0.12</version>
+</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>
