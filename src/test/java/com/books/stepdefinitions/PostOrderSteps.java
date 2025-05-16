@@ -37,7 +37,7 @@ public class PostOrderSteps {
 		context.getResponseUtils().addIDToList(response);
 		responseSpec = context.getSpecificationBuilder().responseBuilder(expectedStatusCode, expectedStatusLine, expectedContentType);
 	    response.then().spec(responseSpec);	//then().log().all()
-	    assertThat(response.getBody().asString(), matchesJsonSchemaInClasspath("postOrderSchema.json"));	    
+	    assertThat(response.getBody().asString(), matchesJsonSchemaInClasspath("schemas/postOrderSchema.json"));	    
 	}
 
 	@Given("User creates POST request for creating new Order with missing fields from {string} for {string}")

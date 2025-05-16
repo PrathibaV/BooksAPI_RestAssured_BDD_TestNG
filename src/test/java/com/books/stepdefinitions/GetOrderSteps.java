@@ -44,7 +44,7 @@ public class GetOrderSteps {
 		responseSpec = context.getSpecificationBuilder().responseBuilder(expectedStatusCode, expectedStatusLine,
 				expectedContentType);
 		response.then().spec(responseSpec);
-		assertThat(response.getBody().asString(), matchesJsonSchemaInClasspath("getAllOrdersSchema.json"));
+		assertThat(response.getBody().asString(), matchesJsonSchemaInClasspath("schemas/getAllOrdersSchema.json"));
 
 		Object result = context.getResponseUtils().deserializationToPojo(response);
 
@@ -81,7 +81,7 @@ public class GetOrderSteps {
 		responseSpec = context.getSpecificationBuilder().responseBuilder(expectedStatusCode, expectedStatusLine,
 				expectedContentType);
 		response.then().spec(responseSpec);
-		assertThat(response.getBody().asString(), matchesJsonSchemaInClasspath("getSingleOrderSchema.json"));
+		assertThat(response.getBody().asString(), matchesJsonSchemaInClasspath("schemas/getSingleOrderSchema.json"));
 
 		Object result = context.getResponseUtils().deserializationToPojo(response);
 		if (result instanceof ResponseBodyPojo) {
